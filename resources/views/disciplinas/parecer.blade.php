@@ -36,7 +36,7 @@
               </li>
 
               <li class="list-group-item">
-                <b>Disciplina USP:</b> {{ $disciplina->codigo }} - {{ \Uspdev\Replicado\Graduacao::nomeDisciplina($disciplina->codigo) }}
+                <b>Disciplina USP:</b> {{ $disciplina->codigo }} - {{$disciplinas_usp[$disciplina->codigo] ?? ''}}
               </li>
 
               <li class="list-group-item">

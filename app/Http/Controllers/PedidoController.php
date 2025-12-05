@@ -40,16 +40,16 @@ class PedidoController extends Controller
 
     public function create(Country $country, Pedido $pedido)
     {
-       
         $this->authorize('grad');
         $countries = Country::all()->sortBy('nome');
-
+        $instituicoes = Instituicao::all()->sortBy('nome_instituicao');
         $tipos = explode(PHP_EOL,app(GeneralSettings::class)->tipos_pedido);
 
         return view('pedidos.create',[
             'pedido' => new Pedido,
             'countries' => $countries,
-            'instituicoes' => array(),
+            //'instituicoes' => array(),
+            'instituicoes' => $instituicoes,
             'tipos' => $tipos,
             'pedido' => $pedido
 
@@ -97,6 +97,7 @@ class PedidoController extends Controller
             request()->session()->flash('alert-danger','O preenchimento do relatório é obrigatorio para dar continuidade ao pedido');
             return redirect("/relatorios/$pedido->id");
         }
+        
         if($pedido->status == 'Comissão de Graduação'){
             $docentes = Pessoa::listarDocentes();
         } else {
@@ -106,12 +107,15 @@ class PedidoController extends Controller
         $this->authorize('owner', $pedido);
 
         $stepper->setCurrentStepName($pedido->status);
-        $codpes = auth()->user()->codpes;
 
+        $disciplinas_usp = $pedido->disciplinas->pluck('codigo')->toArray();
+        $disciplinas_usp = Utils::nome_disciplina_usp(  $disciplinas_usp);
+        
         return view('pedidos.show',[
             'pedido' => $pedido,
             'docentes' => $docentes,
             'disciplinas' => Utils::disciplinas(auth()->user()->codpes),
+            'disciplinas_usp' => collect($disciplinas_usp)->pluck('nomdis','coddis'),
             'stepper' => $stepper->render()
         ]);
     }

@@ -20,10 +20,16 @@ class Utils
     }
 
     public static function nome_disciplina_usp($coddis){
+        $x = collect($coddis)->map(function($item){
+            //caso o aluno tenha selecionado uma optativa não retorna o código da disciplina.
+            //Neste caso, procurar uma alternativa para que a query não precise retornar um valor pré-setado como "NULL"
+            return empty($item) ? 'null' : $item; 
+        })->all();
+        
         if($coddis){
-            return Graduacao::nomeDisciplina($coddis);
+            return Graduacao::obterDisciplinas($x);
         }
-        return [];
+        return '';
     }
 
     public static function updatePedidoStatus(Pedido $pedido){

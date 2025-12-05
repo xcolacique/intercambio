@@ -26,7 +26,8 @@
           <td>{{ $disciplina->pedido->curso }}</td>
           <td>{{ $disciplina->pedido->instituicao->nome_instituicao }}</td>
           <td>{{ $disciplina->nome }}</td>
-          <td>{{ $disciplina->codigo }} - {{ \Uspdev\Replicado\Graduacao::nomeDisciplina($disciplina->codigo) }}</td>
+          <td>{{ $disciplina->codigo }} - {{$disciplinas_usp[$disciplina->codigo] ?? ''}}
+          </td>
           <td>{{ $disciplina->status }}</td>
           <td>
             <a href="/show_parecer/{{ $disciplina->id }}" class="btn btn-success"> 

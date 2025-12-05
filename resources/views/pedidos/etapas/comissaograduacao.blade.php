@@ -18,7 +18,8 @@
       <tr>
         @if($disciplina->tipo == 'Obrigatória')
           <td>{{ $disciplina->nome }}</td>
-          <td>{{ $disciplina->codigo }}</td>
+          <td>{{ $disciplina->codigo }} - {{$disciplinas_usp[$disciplina->codigo] ?? ''}}
+          </td>
           <td align="center">{{ $disciplina->nota }}</td>
           <td align="center">{{ $disciplina->carga_horaria }}</td>
           <td align="center">
