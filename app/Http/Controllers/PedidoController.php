@@ -108,8 +108,8 @@ class PedidoController extends Controller
 
         $stepper->setCurrentStepName($pedido->status);
 
-        $disciplinas_usp = $pedido->disciplinas->pluck('codigo')->toArray();
-        $disciplinas_usp = Utils::nome_disciplina_usp(  $disciplinas_usp);
+        $coddis = $pedido->disciplinas->pluck('codigo')->toArray();
+        $disciplinas_usp = Utils::nome_disciplina_usp($coddis);
         
         return view('pedidos.show',[
             'pedido' => $pedido,
